@@ -1,0 +1,8 @@
+.footer {
+    height: 5em;
+    background-color: silver;
+    margin-top: 1.5em;
+}
+#swal2-html-container {
+    z-index: 999;
+}
