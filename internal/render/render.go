@@ -2,18 +2,19 @@ package render
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/igor6629/booking/internal/config"
 	"github.com/igor6629/booking/internal/models"
 	"github.com/justinas/nosurf"
 	"html/template"
-	"log"
 	"net/http"
 	"path/filepath"
 )
 
 var functions = template.FuncMap{}
 var app *config.AppConfig
+var pathToTemplates = "./templates"
 
 func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 	td.Flash = app.Session.PopString(r.Context(), "flash")
@@ -27,7 +28,7 @@ func NewTemplates(conf *config.AppConfig) {
 	app = conf
 }
 
-func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -39,7 +40,7 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *mod
 	t, ok := tc[tmpl]
 
 	if !ok {
-		log.Fatal("Could not get template from template")
+		return errors.New("can't get template from template")
 	}
 
 	buf := new(bytes.Buffer)
@@ -49,12 +50,15 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *mod
 
 	if err != nil {
 		fmt.Println("Error writing template to browser", err)
+		return err
 	}
+
+	return nil
 }
 
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
-	pages, err := filepath.Glob("./templates/*.page.tmpl")
+	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.tmpl", pathToTemplates))
 
 	if err != nil {
 		return cache, err
@@ -68,14 +72,14 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 			return cache, err
 		}
 
-		matches, err := filepath.Glob("./templates/*layout.tmpl")
+		matches, err := filepath.Glob(fmt.Sprintf("%s/*layout.tmpl", pathToTemplates))
 
 		if err != nil {
 			return cache, err
 		}
 
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob("./templates/*layout.tmpl")
+			ts, err = ts.ParseGlob(fmt.Sprintf("%s/*layout.tmpl", pathToTemplates))
 
 			if err != nil {
 				return cache, err
