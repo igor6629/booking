@@ -4,11 +4,18 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="mt-5">Make Reservation</h1>
-                <p><strong>Reservation Details</strong></p>
                 {{$res := index .Data "reservation"}}
+                <h1 class="mt-5">Make Reservation</h1>
+                <p><strong>Reservation Details</strong><hr>
+                    Room: {{$res.Room.RoomName}}<br>
+                    Arrival: {{index .StringMap "start_date"}}<br>
+                    Departure: {{index .StringMap "end_date"}}<br>
+                </p>
                 <form action="/make-reservation" method="POST" novalidate>
                     <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                    <input type="hidden" name="start_date" value="{{index .StringMap "start_date"}}">
+                    <input type="hidden" name="end_date" value="{{index .StringMap "end_date"}}">
+                    <input type="hidden" name="room_id" value="{{$res.RoomID}}">
                     <div class="col">
                         <label for="first_name" class="form-label">First Name:</label>
                         {{with .Form.Errors.Get "first_name"}}
@@ -23,15 +30,6 @@
                         {{end}}
                         <input type="text" class="form-control {{with .Form.Errors.Get "last_name"}} is-invalid {{end}}" id="last_name" name="last_name" required autocomplete="off" value="{{$res.LastName}}">
                     </div>
-                    <div class="col">
-                        <label for="start_date" class="form-label">Start Date:</label>
-                        <input type="text" class="form-control" id="start_date" name="start_date" required autocomplete="off">
-                    </div>
-                    <div class="col">
-                        <label for="end_date" class="form-label">End Date:</label>
-                        <input type="text" class="form-control" id="end_date" name="end_date" required autocomplete="off">
-                    </div>
-                    <input type="hidden" name="room_id" value="1">
                     <div class="col">
                         <label for="email" class="form-label">Email:</label>
                         {{with .Form.Errors.Get "email"}}

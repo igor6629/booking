@@ -1,40 +1,116 @@
-{{template "base" .}}
+function Promt() {
+    let toast = function (c) {
+        const {
+            msg = "",
+            icon = "success",
+            position = "top-end",
+        } = c;
 
-{{define "content"}}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h1 class="text-center mt-4">Summer House</h1>
-                <p>Your home away from home, full freedom on your trip to Norway, this will be a vacation to remember.</p>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-6">
-                <img src="/static/images/summer-house-t.jpg." class="img-fluid room-img rounded" alt="Summer House 1">
-            </div>
-            <div class="col-6">
-                <img src="/static/images/summer-house2-t.jpg." class="img-fluid room-img rounded" alt="Summer House 2">
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-6">
-                <img src="/static/images/summer-house3-t.jpg." class="img-fluid room-img rounded" alt="Summer House 3">
-            </div>
-            <div class="col-6">
-                <img src="/static/images/summer-house4-t.jpg." class="img-fluid room-img rounded" alt="Summer House 4">
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col text-center">
-                <a id="check-availability-button" href="#!" class="btn btn-secondary">Check Availability</a>
-            </div>
-        </div>
-    </div>
+        const Toast = Swal.mixin({
+            toast: true,
+            title: msg,
+            position: position,
+            icon: icon,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
 
-{{end}}
+        Toast.fire({})
+    }
 
-{{define "js"}}
-<script>
+    let success = function (c) {
+        const {
+            msg = "",
+            text = "",
+            footer = "",
+        } = c;
+
+        Swal.fire({
+            icon: 'success',
+            title: msg,
+            text: text,
+            footer: footer
+        })
+    }
+
+    let error = function (c) {
+        const {
+            msg = "",
+            text = "",
+            footer = "",
+        } = c;
+
+        Swal.fire({
+            icon: 'error',
+            title: msg,
+            text: text,
+            footer: footer
+        })
+    }
+
+    async function custom(c) {
+        const {
+            icon = "",
+            msg = "",
+            title = "",
+            showConfirmButton = true,
+        } = c;
+
+        const { value: result } = await Swal.fire({
+            icon: icon,
+            title: title,
+            html: msg,
+            backdrop: false,
+            focusConfirm: false,
+            showCancelButton: true,
+            showConfirmButton: showConfirmButton,
+            willOpen: () => {
+                if (c.willOpen !== undefined) {
+                    c.willOpen();
+                }
+            },
+            didOpen: () => {
+                if (c.didOpen !== undefined) {
+                    c.didOpen();
+                }
+            },
+            preConfirm: () => {
+                return [
+                    document.getElementById('start').value,
+                    document.getElementById('end').value
+                ]
+            },
+        })
+
+        if (result) {
+            if (result.dismiss !== Swal.DismissReason.cancel) {
+                if (result.value !== "") {
+                    if (c.callback !== undefined){
+                        c.callback(result);
+                    }
+                } else {
+                    c.callback(false);
+                }
+            } else {
+                c.callback(false);
+            }
+        }
+    }
+
+    return {
+        toast: toast,
+        success: success,
+        error: error,
+        custom: custom,
+    }
+}
+
+function CheckAvailability(id) {
     document.getElementById('check-availability-button').addEventListener("click", function () {
         let html = `
             <div class="container">
@@ -73,7 +149,7 @@
                 let form = document.getElementById("check-availability-form");
                 let formData = new FormData(form);
                 formData.append("csrf_token", "{{.CSRFToken}}");
-                formData.append("room_id", "2")
+                formData.append("room_id", id)
 
                 fetch("/search-availability-json", {
                     method: "post",
@@ -102,5 +178,4 @@
             }
         });
     });
-</script>
-{{end}}
+}

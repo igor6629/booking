@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-func (m *postgersDBRepo) AllUsers() bool {
+func (m *postgresDBRepo) AllUsers() bool {
 	return true
 }
 
-func (m *postgersDBRepo) InsertReservation(res models.Reservation) (int, error) {
+func (m *postgresDBRepo) InsertReservation(res models.Reservation) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -39,7 +39,7 @@ func (m *postgersDBRepo) InsertReservation(res models.Reservation) (int, error) 
 	return newID, nil
 }
 
-func (m *postgersDBRepo) InsertRoomRestriction(r models.RoomRestriction) error {
+func (m *postgresDBRepo) InsertRoomRestriction(r models.RoomRestriction) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -63,7 +63,7 @@ func (m *postgersDBRepo) InsertRoomRestriction(r models.RoomRestriction) error {
 	return nil
 }
 
-func (m *postgersDBRepo) SearchAvailabilityByDatesByRoomID(start, end time.Time, roomID int) (bool, error) {
+func (m *postgresDBRepo) SearchAvailabilityByDatesByRoomID(start, end time.Time, roomID int) (bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
@@ -81,4 +81,50 @@ func (m *postgersDBRepo) SearchAvailabilityByDatesByRoomID(start, end time.Time,
 	}
 
 	return false, nil
+}
+
+func (m *postgresDBRepo) SearchAvailabilityForAllRooms(start, end time.Time) ([]models.Room, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var rooms []models.Room
+	query := `select r.id, r.room_name from rooms r where r.id not in
+				(select room_id from room_restrictions rr where $1 < end_date and $2 > start_date)`
+
+	rows, err := m.DB.QueryContext(ctx, query, start, end)
+	if err != nil {
+		return rooms, err
+	}
+
+	for rows.Next() {
+		var room models.Room
+		err := rows.Scan(&room.ID, &room.RoomName)
+		if err != nil {
+			return rooms, err
+		}
+		rooms = append(rooms, room)
+	}
+
+	if err = rows.Err(); err != nil {
+		return rooms, err
+	}
+
+	return rooms, nil
+}
+
+func (m *postgresDBRepo) GetRoomByID(id int) (models.Room, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var room models.Room
+
+	query := `select id, room_name, created_at, updated_at from rooms where id = $1`
+
+	row := m.DB.QueryRowContext(ctx, query, id)
+	err := row.Scan(&room.ID, &room.RoomName, &room.CreatedAt, &room.UpdatedAt)
+	if err != nil {
+		return room, err
+	}
+
+	return room, nil
 }
