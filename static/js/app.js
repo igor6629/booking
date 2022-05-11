@@ -79,12 +79,6 @@ function Promt() {
                     c.didOpen();
                 }
             },
-            preConfirm: () => {
-                return [
-                    document.getElementById('start').value,
-                    document.getElementById('end').value
-                ]
-            },
         })
 
         if (result) {

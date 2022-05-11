@@ -4,10 +4,21 @@
     Reservation
 {{end}}
 
+{{define "css"}}
+    <style>
+        .btn-danger, .btn-success {
+            color: #fff;
+        }
+    </style>
+{{end}}
+
 {{define "content"}}
     {{$res := index .Data "reservation"}}
     {{$src := index .StringMap "src"}}
     <div class="col-md-12">
+        <div class="float-end">
+            <a href="#!" class="btn btn-success" onclick="processRes({{$res.ID}})">Mark as Processed</a>
+        </div>
         <p>
             <strong>Arrival:</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  {{humanDate $res.StartDate}}<br>
             <strong>Departure:</strong>&nbsp {{humanDate $res.EndDate}}<br>
@@ -45,8 +56,45 @@
                 <input type="text" class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}" id="phone" name="phone" required autocomplete="off" value="{{$res.Phone}}">
             </div>
             <br>
-            <a href="/admin/reservations-{{$src}}" class="btn btn-warning">Cancel</a>
-            <input type="submit" class="btn btn-primary" value="Save">
+            <div class="float-start">
+                {{if eq $src "cal"}}
+                    <a href="#!" onclick="window.history.go(-1)" class="btn btn-dark">Back</a>
+                {{else}}
+                    <a href="/admin/reservations-{{$src}}" class="btn btn-dark">Back</a>
+                {{end}}
+            </div>
+            <div class="float-end">
+                <a href="#!" class="btn btn-danger" onclick="deleteRes({{$res.ID}})">Delete</a>
+                <input type="submit" class="btn btn-behance" value="Save">
+            </div>
         </form>
     </div>
+{{end}}
+
+{{define "js"}}
+    {{$src := index .StringMap "src"}}
+    <script>
+        function processRes(id) {
+            attention.custom({
+                icon: "warning",
+                msg: "Are you sure?",
+                callback: function (result) {
+                    if (result !== false) {
+                        window.location.href = "/admin/process-reservation/{{$src}}/" + id;
+                    }
+                }
+            })
+        }
+        function deleteRes(id) {
+            attention.custom({
+                icon: "warning",
+                msg: "Are you sure?",
+                callback: function (result) {
+                    if (result !== false) {
+                        window.location.href = "/admin/delete-reservation/{{$src}}/" + id;
+                    }
+                }
+            })
+        }
+    </script>
 {{end}}

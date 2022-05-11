@@ -14,7 +14,9 @@ import (
 )
 
 var functions = template.FuncMap{
-	"humanDate": HumanDate,
+	"humanDate":  HumanDate,
+	"formatDate": FormatDate,
+	"iterate":    Iterate,
 }
 var app *config.AppConfig
 var pathToTemplates = "./templates"
@@ -32,12 +34,26 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 	return td
 }
 
+func Iterate(count int) []int {
+	var items []int
+
+	for i := 1; i <= count; i++ {
+		items = append(items, i)
+	}
+
+	return items
+}
+
 func NewRenderer(conf *config.AppConfig) {
 	app = conf
 }
 
 func HumanDate(t time.Time) string {
 	return t.Format("2006-January-02")
+}
+
+func FormatDate(t time.Time, f string) string {
+	return t.Format(f)
 }
 
 func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
