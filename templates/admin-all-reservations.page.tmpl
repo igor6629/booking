@@ -27,8 +27,8 @@
                         <td>{{.ID}}</td>
                         <td><a href="/admin/reservations/all/{{.ID}}/show"> {{.FirstName}}  {{.LastName}}</a></td>
                         <td>{{.Room.RoomName}}</td>
-                        <td>{{humanDate .StartDate}}</td>
-                        <td>{{humanDate .EndDate}}</td>
+                        <td>{{formatDate .StartDate "2006 January 02"}}</td>
+                        <td>{{formatDate .StartDate "2006 January 02"}}</td>
                     </tr>
                 {{end}}
             </tbody>

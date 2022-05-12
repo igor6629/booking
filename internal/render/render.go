@@ -14,7 +14,6 @@ import (
 )
 
 var functions = template.FuncMap{
-	"humanDate":  HumanDate,
 	"formatDate": FormatDate,
 	"iterate":    Iterate,
 }
@@ -46,10 +45,6 @@ func Iterate(count int) []int {
 
 func NewRenderer(conf *config.AppConfig) {
 	app = conf
-}
-
-func HumanDate(t time.Time) string {
-	return t.Format("2006-January-02")
 }
 
 func FormatDate(t time.Time, f string) string {
