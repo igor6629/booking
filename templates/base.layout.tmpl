@@ -11,50 +11,52 @@
         <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Rooms
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/vega-cottage">Vega Cottage</a></li>
-                            <li><a class="dropdown-item" href="/summer-house">Summer House</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/search-availability">Book now</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact</a>
-                    </li><li class="nav-item">
-                    {{if eq .IsAuthenticated 1}}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Admin
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/admin/dashboard">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
-                        </ul>
-                    </li>
-                    {{else}}
-                        <a class="nav-link" href="/user/login">Login</a>
-                    {{end}}
-                    </li>
-                </ul>
+            <div class="float-end">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/about">About</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Rooms
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item text-black" href="/vega-cottage">Vega Cottage</a></li>
+                                <li><a class="dropdown-item text-black" href="/summer-house">Summer House</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/search-availability">Book now</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/contact">Contact</a>
+                        </li><li class="nav-item">
+                        {{if eq .IsAuthenticated 1}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-black" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item text-black" href="/admin/dashboard">Dashboard</a></li>
+                                <li><a class="dropdown-item text-black" href="/admin/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                        {{else}}
+                            <a class="nav-link text-black" href="/user/login">Login</a>
+                        {{end}}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -62,15 +64,17 @@
 {{block "content" .}}
 
 {{end}}
-    <div class="row footer">
-        <div class="col">
-            Left
-        </div>
-        <div class="col">
-            Middle
-        </div>
-        <div class="col">
-            Right
+    <div class="container-fluid">
+        <div class="row footer">
+            <div class="col">
+                Left
+            </div>
+            <div class="col">
+                Middle
+            </div>
+            <div class="col">
+                Right
+            </div>
         </div>
     </div>
 

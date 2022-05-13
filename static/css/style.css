@@ -1,3 +1,11 @@
+.img_rad {
+    border-radius: 30px;
+}
+
+nav-link {
+    color: #000000;
+}
+
 .footer {
     height: 5em;
     background-color: silver;
