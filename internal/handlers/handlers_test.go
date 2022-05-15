@@ -32,7 +32,6 @@ var theTests = []struct {
 	{"vc", "/vega-cottage", "GET", http.StatusOK},
 	{"sh", "/summer-house", "GET", http.StatusOK},
 	{"sa", "/search-availability", "GET", http.StatusOK},
-	{"contact", "/contact", "GET", http.StatusOK},
 	{"non-existent", "/green/eggs/and/ham", "GET", http.StatusNotFound},
 	{"login", "/user/login", "GET", http.StatusOK},
 	{"logout", "/user/logout", "GET", http.StatusOK},

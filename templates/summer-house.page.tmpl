@@ -1,11 +1,14 @@
 {{template "base" .}}
 
+{{define "page-title"}}
+    Summer House
+{{end}}
+
 {{define "content"}}
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="text-center mt-4">Summer House</h1>
-                <p>Your home away from home, full freedom on your trip to Norway, this will be a vacation to remember.</p>
+                <h1 class="text-center mt-2" style="color: #436D90">Summer House</h1>
             </div>
         </div>
         <div class="row mt-3">
@@ -15,18 +18,23 @@
             <div class="col-6">
                 <img src="/static/images/summer-house2-t.jpg." class="img-fluid room-img rounded" alt="Summer House 2">
             </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-6">
+            <div class="col-6 mt-4">
                 <img src="/static/images/summer-house3-t.jpg." class="img-fluid room-img rounded" alt="Summer House 3">
             </div>
-            <div class="col-6">
+            <div class="col-6 mt-4">
                 <img src="/static/images/summer-house4-t.jpg." class="img-fluid room-img rounded" alt="Summer House 4">
+            </div>
+            <div class="col mt-4">
+                <h6 style="color: #2F3B30">
+                    <p>The rock formation of the site is left completely intact. A rectangular concrete terrace is erected, and on top of that 7 differently shaped massiv wood slabs are placed to create both indoor and covered outdoor rooms. The 7 slabs are covered with a partially curved roof made of 2”x4”.</p>
+                    <p>The ceiling is painted in lively colours, a tribute to the traditional houses in the area. All the outer timber are left untreated, turning grey over time.</p>
+                    <p>Both the grey colour and the shape makes the summer house almost invisible from a distance, echoing the atmosphere in “the summerhouse”, a short story by Norwegian author Johan Borgen.</p>
+                </h6>
             </div>
         </div>
         <div class="row mt-4">
             <div class="col text-center">
-                <a id="check-availability-button" href="#!" class="btn btn-secondary">Check Availability</a>
+                <a id="check-availability-button" href="#!" class="button-search-rooms">Check Availability</a>
             </div>
         </div>
     </div>

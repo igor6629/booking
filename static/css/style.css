@@ -2,14 +2,73 @@
     border-radius: 30px;
 }
 
-nav-link {
+a {
+    text-decoration: none;
     color: #000000;
+}
+
+.scale {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.scale img {
+    transition: 1s;
+    display: block;
+}
+.scale img:hover {
+    transform: scale(1.1);
+}
+
+
+a:hover {
+    color: #655B10;
+}
+
+.nav-link {
+    color: #000000;
+}
+
+.nav-link:hover {
+    color: #F36870;
+}
+
+ .button-search {
+     display: inline-block;
+     padding: 0.3em 1em;
+     text-decoration: none;
+     color: #2F3B30;
+     border: solid 2px #2F3B30;
+     border-radius: 3px;
+     transition: .4s;
+     background: #fff;
+ }
+
+ .button-search:hover {
+     background: #2F3B30;
+     color: #fff;
+ }
+
+ .button-search-rooms {
+     display: inline-block;
+     padding: 0.3em 1em;
+     text-decoration: none;
+     color: #F36870;
+     border: solid 2px #F36870;
+     border-radius: 3px;
+     transition: .4s;
+     background: #fff;
+ }
+
+.button-search-rooms:hover {
+    background: #F36870;
+    color: #fff;
 }
 
 .footer {
     height: 5em;
     background-color: silver;
-    margin-top: 1.5em;
+    margin-top: -80px;
 }
 
 #swal2-html-container {

@@ -1,18 +1,20 @@
 {{template "base" .}}
 
+{{define "page-title"}}
+    Choose a Room
+{{end}}
+
 {{define "content"}}
     <div class="container">
         <div class="row">
-            <div class="col">
-                <h1>Choose a Room</h1>
-
-                {{$rooms := index .Data "rooms"}}
-                <ul>
-                    {{range $rooms}}
-                        <li><a href="/choose-room/{{.ID}}">{{.RoomName}}</a></li>
-                    {{end}}
-                </ul>
-            </div>
+            <h1 class="mt-5 text-center" style="color: #436D90">Choose a Room</h1>
+            {{$rooms := index .Data "rooms"}}
+            {{range $rooms}}
+                <div class="col-6">
+                    <h3 class="text-center"><a href="/choose-room/{{.ID}}" style="color: #2F3B30">{{.RoomName}}</a></h3>
+                    <div class="scale"><img src="/static/images/{{.ID}}.jpg" class="img-fluid room-img" alt="{{.RoomName}}"></div>
+                </div>
+            {{end}}
         </div>
     </div>
 {{end}}

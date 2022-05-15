@@ -1,11 +1,14 @@
 {{template "base" .}}
 
+{{define "page-title"}}
+    Vega Cottage
+{{end}}
+
 {{define "content"}}
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="text-center mt-4">Vega Cottage</h1>
-                <p>Your home away from home, full freedom on your trip to Norway, this will be a vacation to remember.</p>
+                <h1 class="text-center mt-2" style="color: #436D90">Vega Cottage</h1>
             </div>
         </div>
         <div class="row mt-3">
@@ -15,18 +18,24 @@
             <div class="col-6">
                 <img src="/static/images/vega2-t.jpg" class="img-fluid room-img rounded" alt="Vega 2">
             </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-6">
+            <div class="col-6 mt-4">
                 <img src="/static/images/vega3-t.jpeg" class="img-fluid room-img rounded" alt="Vega 3">
             </div>
-            <div class="col-6">
+            <div class="col-6 mt-4">
                 <img src="/static/images/vega4-t.jpg" class="img-fluid room-img rounded" alt="Vega 4">
+            </div>
+            <div class="col mt-4">
+                <h6 style="color: #2F3B30">
+                    <p>The house stands on the island of Vega in the Norwegian archipelago not far from the polar circle. The site is distinctive for its grand and harsh northern landscape with wide pano- ramas of the Norwegian Sea and the jagged mountains rising from it.</p>
+                    <p>Not far from the site, near the ocean shore, stands a group of traditional seaside huts, in Norwegian called Naust, whose forms and materials reflect many years’ experience of building in these conditions. The outermost hut shelters those behind – the huts being placed at odd angles to each other, partly due to topography and partly due to chance. The windowless weathered wooden facades have a straightforward tectonic and a strong material vocabulary.</p>
+                    <p>We believe that good buildings engender the refinement of everyday life, having a curious, evocative and empathic na- ture. We have aimed to build a contemporary Naust with an unpretentious presence and a distinctive character, develop- ing themes from the vernacular architecture.</p>
+                    <p>Seemingly growing from the landscape, the house sits on a rock beneath a granite shoulder negotiating the uneven ter- rain. As not to disturb the dominant view towards the sea, access to the house is given through a narrow natural ravine densely grown with gnarled birch shrubs and laid out with sea-sand from the nearby shore. The landscape remains un- touched and wild.</p>
+                </h6>
             </div>
         </div>
         <div class="row mt-4">
             <div class="col text-center">
-                <a id="check-availability-button" href="#!" class="btn btn-secondary">Check Availability</a>
+                <a id="check-availability-button" href="#!" class="button-search-rooms">Check Availability</a>
             </div>
         </div>
     </div>
