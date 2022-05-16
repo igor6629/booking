@@ -18,7 +18,7 @@
                     <strong>Arrival:</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  {{formatDate $res.StartDate "2006"}} {{formatDate $res.StartDate "January"}} {{formatDate $res.StartDate "02"}}<br>
                     <strong>Departure:</strong>&nbsp {{formatDate $res.EndDate "2006"}} {{formatDate $res.EndDate "January"}} {{formatDate $res.EndDate "02"}}<br>
                 </p>
-                <form action="/make-reservation" method="POST" class="needs-validation">
+                <form action="/make-reservation" method="POST" novalidate class="needs-validation">
                     <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
                     <input type="hidden" name="start_date" value="{{index .StringMap "start_date"}}">
                     <input type="hidden" name="end_date" value="{{index .StringMap "end_date"}}">

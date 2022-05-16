@@ -469,3 +469,29 @@ func (m *postgresDBRepo) DeleteBlockByID(id int) error {
 
 	return nil
 }
+
+func (m *postgresDBRepo) CountNewReservations() int {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var count int
+
+	query := `select count(*) from reservations where processed = 0`
+	row := m.DB.QueryRowContext(ctx, query)
+	row.Scan(&count)
+
+	return count
+}
+
+func (m *postgresDBRepo) CountAllReservations() int {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	var count int
+
+	query := `select count(*) from reservations`
+	row := m.DB.QueryRowContext(ctx, query)
+	row.Scan(&count)
+
+	return count
+}

@@ -467,7 +467,16 @@ func (m *Repository) Logout(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
+	newReservations := m.DB.CountNewReservations()
+	allReservations := m.DB.CountAllReservations()
+
+	intMap := make(map[string]int)
+	intMap["new_reservations"] = newReservations
+	intMap["all_reservations"] = allReservations
+
+	render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{
+		IntMap: intMap,
+	})
 }
 
 func (m *Repository) AdminNewReservations(w http.ResponseWriter, r *http.Request) {

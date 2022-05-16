@@ -25,4 +25,6 @@ type DatabaseRepo interface {
 	GetRestrictionsForRoomByDate(roomID int, start, end time.Time) ([]models.RoomRestriction, error)
 	InsertBlockForRoom(id int, startDate time.Time) error
 	DeleteBlockByID(id int) error
+	CountNewReservations() int
+	CountAllReservations() int
 }
