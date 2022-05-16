@@ -120,7 +120,6 @@ func TestRepository_Reservation(t *testing.T) {
 		}
 
 		if e.expectedLocation != "" {
-			// get the URL from test
 			actualLoc, _ := rr.Result().Location()
 			if actualLoc.String() != e.expectedLocation {
 				t.Errorf("failed %s: expected location %s, but got location %s", e.name, e.expectedLocation, actualLoc.String())
@@ -128,7 +127,6 @@ func TestRepository_Reservation(t *testing.T) {
 		}
 
 		if e.expectedHTML != "" {
-			// read the response body into a string
 			html := rr.Body.String()
 			if !strings.Contains(html, e.expectedHTML) {
 				t.Errorf("failed %s: expected to find %s but did not", e.name, e.expectedHTML)
@@ -282,7 +280,6 @@ func TestRepository_PostReservation(t *testing.T) {
 		}
 
 		if e.expectedLocation != "" {
-			// get the URL from test
 			actualLoc, _ := rr.Result().Location()
 			if actualLoc.String() != e.expectedLocation {
 				t.Errorf("failed %s: expected location %s, but got location %s", e.name, e.expectedLocation, actualLoc.String())
@@ -290,7 +287,6 @@ func TestRepository_PostReservation(t *testing.T) {
 		}
 
 		if e.expectedHTML != "" {
-			// read the response body into a string
 			html := rr.Body.String()
 			if !strings.Contains(html, e.expectedHTML) {
 				t.Errorf("failed %s: expected to find %s but did not", e.name, e.expectedHTML)
@@ -367,15 +363,12 @@ func TestRepository_PostAvailability(t *testing.T) {
 	for _, e := range testPostAvailabilityData {
 		req, _ := http.NewRequest("POST", "/search-availability", strings.NewReader(e.postedData.Encode()))
 
-		// get the context with session
 		ctx := getCtx(req)
 		req = req.WithContext(ctx)
 
-		// set the request header
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		rr := httptest.NewRecorder()
 
-		// make our handler a http.HandlerFunc and call
 		handler := http.HandlerFunc(Repo.PostAvailability)
 		handler.ServeHTTP(rr, req)
 
@@ -428,7 +421,6 @@ var testAvailabilityJSONData = []struct {
 
 func TestRepository_AvailabilityJSON(t *testing.T) {
 	for _, e := range testAvailabilityJSONData {
-		// create request, get the context with session, set header, create recorder
 		var req *http.Request
 		if e.postedData != nil {
 			req, _ = http.NewRequest("POST", "/search-availability-json", strings.NewReader(e.postedData.Encode()))
@@ -440,7 +432,6 @@ func TestRepository_AvailabilityJSON(t *testing.T) {
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		rr := httptest.NewRecorder()
 
-		// make our handler a http.HandlerFunc and call
 		handler := http.HandlerFunc(Repo.AvailabilityJSON)
 		handler.ServeHTTP(rr, req)
 
@@ -554,7 +545,6 @@ func TestRepository_ChooseRoom(t *testing.T) {
 		req, _ := http.NewRequest("GET", e.url, nil)
 		ctx := getCtx(req)
 		req = req.WithContext(ctx)
-		// set the RequestURI on the request so that we can grab the ID from the URL
 		req.RequestURI = e.url
 
 		rr := httptest.NewRecorder()
@@ -652,22 +642,18 @@ var loginTests = []struct {
 }
 
 func TestLogin(t *testing.T) {
-	// range through all tests
 	for _, e := range loginTests {
 		postedData := url.Values{}
 		postedData.Add("email", e.email)
 		postedData.Add("password", "password")
 
-		// create request
 		req, _ := http.NewRequest("POST", "/user/login", strings.NewReader(postedData.Encode()))
 		ctx := getCtx(req)
 		req = req.WithContext(ctx)
 
-		// set the header
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		rr := httptest.NewRecorder()
 
-		// call the handler
 		handler := http.HandlerFunc(Repo.PostShowLogin)
 		handler.ServeHTTP(rr, req)
 
@@ -676,16 +662,13 @@ func TestLogin(t *testing.T) {
 		}
 
 		if e.expectedLocation != "" {
-			// get the URL from test
 			actualLoc, _ := rr.Result().Location()
 			if actualLoc.String() != e.expectedLocation {
 				t.Errorf("failed %s: expected location %s, but got location %s", e.name, e.expectedLocation, actualLoc.String())
 			}
 		}
 
-		// checking for expected values in HTML
 		if e.expectedHTML != "" {
-			// read the response body into a string
 			html := rr.Body.String()
 			if !strings.Contains(html, e.expectedHTML) {
 				t.Errorf("failed %s: expected to find %s but did not", e.name, e.expectedHTML)

@@ -50,7 +50,5 @@ func sendMsg(m models.MailData) {
 	err = email.Send(client)
 	if err != nil {
 		log.Println(err)
-	} else {
-		log.Println("Email sent")
 	}
 }

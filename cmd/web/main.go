@@ -33,8 +33,6 @@ func main() {
 	defer close(app.MailChan)
 	listenForMail()
 
-	fmt.Println(fmt.Sprintf("Port is %s", port))
-
 	srv := &http.Server{
 		Addr:    port,
 		Handler: routes(&app),
@@ -87,14 +85,11 @@ func run() (*driver.DB, error) {
 
 	app.Session = session
 
-	log.Println("Connecting to database...")
-	// "host=localhost port=5432 dbname=booking user=postgres password=root"
 	connectionString := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=%s", *dbHost, *dbPort, *dbName, *dbUser, *dbPass, *dbSSL)
 	db, err := driver.ConnectSQL(connectionString)
 	if err != nil {
 		log.Fatal("Cannot connect to database")
 	}
-	log.Println("Connected to database")
 
 	tc, err := render.CreateTemplateCache()
 
@@ -112,10 +107,3 @@ func run() (*driver.DB, error) {
 
 	return db, nil
 }
-
-/*
-
-session.Cookie.Secure = true
-app.UseCache = true
-
-*/

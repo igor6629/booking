@@ -76,12 +76,14 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	end := r.Form.Get("end")
 
 	layout := "2006-01-02"
+
 	startDate, err := time.Parse(layout, start)
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "can't parse start date!")
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
+
 	endDate, err := time.Parse(layout, end)
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "can't parse end date!")
@@ -128,7 +130,6 @@ type jsonResponse struct {
 func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		// can't parse form, so return appropriate json
 		resp := jsonResponse{
 			OK:      false,
 			Message: "Internal server error",
@@ -173,7 +174,6 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
-
 }
 
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
@@ -311,7 +311,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		<strong>Reservation Confirmation</strong><br>
 		Dear %s: <br>
 		This is confirm your reservation from %s to %s.
-	`, reservation.FirstName, reservation.StartDate.Format("2006-01-02"), reservation.EndDate.Format("2006-01-02"))
+	`, reservation.FirstName, reservation.StartDate.Format("2006 January 02"), reservation.EndDate.Format("2006 January 02"))
 
 	msg := models.MailData{
 		To:       reservation.Email,
@@ -324,15 +324,16 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	m.App.MailChan <- msg
 
 	htmlMessage = fmt.Sprintf(`
-		<strong>Reservation Notification</strong><br>
-		A reservation has been made for %s from %s to %s.
-	`, reservation.Room.RoomName, reservation.StartDate.Format("2006-01-02"), reservation.EndDate.Format("2006-01-02"))
+		<strong>Reservation Notification</strong><p>
+		A reservation has been made for %s from %s to %s.</p
+	`, reservation.Room.RoomName, reservation.StartDate.Format("2006 January 02"), reservation.EndDate.Format("2006 January 02"))
 
 	msg = models.MailData{
-		To:      "me@here.com",
-		From:    "me@here.com",
-		Subject: "Reservation Notification",
-		Content: htmlMessage,
+		To:       "me@here.com",
+		From:     "me@here.com",
+		Subject:  "Reservation Notification",
+		Content:  htmlMessage,
+		Template: "basic.html",
 	}
 
 	m.App.MailChan <- msg
@@ -367,12 +368,6 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 }
 
 func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
-	/*roomID, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		helpers.ServerError(w, err)
-		return
-	}*/
-
 	exploded := strings.Split(r.RequestURI, "/")
 	roomID, err := strconv.Atoi(exploded[2])
 	if err != nil {
